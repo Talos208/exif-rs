@@ -110,6 +110,8 @@ impl Reader {
             buf = isobmff::get_exif_attr(reader)?;
         } else if webp::is_webp(&buf) {
             buf = webp::get_exif_attr(&mut buf.chain(reader))?;
+        } else if tiff::is_tiff_like(&buf) {
+            reader.read_to_end(&mut buf)?;
         } else {
             return Err(Error::InvalidFormat("Unknown image format"));
         }

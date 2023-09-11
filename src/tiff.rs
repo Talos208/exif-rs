@@ -41,6 +41,8 @@ const TIFF_LE: u16 = 0x4949;
 const TIFF_FORTY_TWO: u16 = 0x002a;
 pub const TIFF_BE_SIG: [u8; 4] = [0x4d, 0x4d, 0x00, 0x2a];
 pub const TIFF_LE_SIG: [u8; 4] = [0x49, 0x49, 0x2a, 0x00];
+pub const TIFF_LIKE_BE_SIG: [u8; 2] = [0x4d, 0x4d];
+pub const TIFF_LIKE_LE_SIG: [u8; 2] = [0x49, 0x49];
 
 // Partially parsed TIFF field (IFD entry).
 // Value::Unknown is abused to represent a partially parsed value.
@@ -292,6 +294,10 @@ impl Parser {
 
 pub fn is_tiff(buf: &[u8]) -> bool {
     buf.starts_with(&TIFF_BE_SIG) || buf.starts_with(&TIFF_LE_SIG)
+}
+
+pub fn is_tiff_like(buf: &[u8]) -> bool {
+    buf.starts_with(&TIFF_LIKE_BE_SIG) || buf.starts_with(&TIFF_LIKE_LE_SIG)
 }
 
 /// A struct used to parse a DateTime field.
